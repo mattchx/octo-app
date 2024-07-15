@@ -48,16 +48,13 @@ export async function signup(formData: FormData) {
 export async function signInWithGoogle() {
   const supabase = createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
       redirectTo: "http://localhost:3000/auth/callback",
     },
   })
-  
+
   if (data.url) {
     redirect(data.url) // use the redirect API for your server framework
   }
@@ -65,9 +62,19 @@ export async function signInWithGoogle() {
   if (error) {
     redirect('/error')
   }
+}
+
+export async function signout() {
+
+  const supabase = createClient()
+
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    redirect('/error')
+  }
 
   revalidatePath('/', 'layout')
   redirect('/')
-
 }
 

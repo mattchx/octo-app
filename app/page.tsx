@@ -27,6 +27,12 @@ export default function Component() {
           <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
             Contact
           </Link>
+          <Link href="/login" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+            Log in
+          </Link>
+          <Link href="/signup" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+            Sign up
+          </Link>
         </nav>
       </header>
       <main className="flex-1">

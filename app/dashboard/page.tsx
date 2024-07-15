@@ -1,5 +1,7 @@
 "use client"
 // todo: look up if forms can be server components or not
+import { signout } from '../auth/actions'
+
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -38,6 +40,7 @@ export default function CreatorForm() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
+      <Button onClick={() => signout()} >Sign out</Button>
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Content Creator Profile</CardTitle>
