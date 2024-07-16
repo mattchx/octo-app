@@ -9,32 +9,6 @@ export default function Component() {
   return (
     <main className="">
     <div className="flex flex-col min-h-[100dvh]">
-      <header className="px-4 lg:px-6 h-14 flex items-center">
-        <Link href="#" className="flex items-center justify-center" prefetch={false}>
-          <MountainIcon className="h-6 w-6" />
-          <span className="sr-only">Link Pages</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Features
-          </Link>
-          <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Pricing
-          </Link>
-          <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Testimonials
-          </Link>
-          <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Contact
-          </Link>
-          <Link href="/login" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Log in
-          </Link>
-          <Link href="/signup" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
-            Sign up
-          </Link>
-        </nav>
-      </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6 m-auto">

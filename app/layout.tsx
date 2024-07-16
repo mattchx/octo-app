@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { Manrope } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { Nav } from '@/components/ui/nav';
 
 const fontHeading = Manrope({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body
         className={cn("antialiased", fontHeading.variable, fontBody.variable)}
       >
+        <Nav />
         {children}
       </body>
     </html>

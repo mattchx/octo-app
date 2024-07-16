@@ -1,49 +1,49 @@
 "use client"
-// todo: look up if forms can be server components or not
-import { signout } from '../auth/actions'
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function CreatorForm() {
-  const [links, setLinks] = useState([{ title: '', description: '', url: '' }])
+  const [links, setLinks] = useState([{ title: "", description: "", url: "" }]);
 
   const handleLinkChange = (index, field, value) => {
     // const newLinks = [...links]
     // newLinks?[index][field] = value
     // setLinks(...newLinks)
-  }
+  };
 
   const addLink = () => {
-    setLinks([...links, { title: '', description: '', url: '' }])
-  }
+    setLinks([...links, { title: "", description: "", url: "" }]);
+  };
 
   const removeLink = (index) => {
-    const newLinks = links.filter((_, i) => i !== index)
-    setLinks(newLinks)
-  }
+    const newLinks = links.filter((_, i) => i !== index);
+    setLinks(newLinks);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log({
       name: e.target.name.value,
       bio: e.target.bio.value,
-      avatarUrl: e.target.avatarUrl.value,
-      links
-    })
+      // avatarUrl: e.target.avatarUrl.value,
+      // links,
+    });
+    
     // Here you would typically send this data to your backend or state management system
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <Button onClick={() => signout()} >Sign out</Button>
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Content Creator Profile</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            Content Creator Profile
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -53,14 +53,19 @@ export default function CreatorForm() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="bio">Bio</Label>
-              <Textarea id="bio" name="bio" placeholder="Short bio or tagline" required />
+              <Textarea
+                id="bio"
+                name="bio"
+                placeholder="Short bio or tagline"
+                required
+              />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="avatarUrl">Avatar URL</Label>
               <Input id="avatarUrl" name="avatarUrl" placeholder="https://example.com/avatar.jpg" type="url" />
-            </div>
-            
-            <div className="space-y-4">
+            </div> */}
+
+            {/* <div className="space-y-4">
               <h3 className="text-lg font-semibold">Links</h3>
               {links.map((link, index) => (
                 <Card key={index} className="p-4">
@@ -75,7 +80,7 @@ export default function CreatorForm() {
                       placeholder="Link Description"
                       value={link.description}
                       onChange={(e) => handleLinkChange(index, 'description', e.target.value)}
-                      required
+                      // required
                     />
                     <Input
                       placeholder="URL"
@@ -91,12 +96,12 @@ export default function CreatorForm() {
                 </Card>
               ))}
               <Button type="button" onClick={addLink}>Add Link</Button>
-            </div>
-            
+            </div> */}
+
             <Button type="submit">Save Profile</Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
