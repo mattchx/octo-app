@@ -1,14 +1,15 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const usersTable = pgTable('users_table', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  bio: text('bio').notNull(),
+export const usersTable = sqliteTable('users', {
+  id: text('id').primaryKey(),
+  name: text('name'),
+  email: text('email').unique().notNull(),
+  bio: text('bio'),
 });
 
-export const linksTable = pgTable('posts_table', {
-  id: serial('id').primaryKey(),
+export const linksTable = sqliteTable('links', {
+  id: integer('id').primaryKey(),
   userId: integer('user_id')
     .notNull()
     .references(() => usersTable.id, { onDelete: 'cascade' }),
@@ -21,4 +22,4 @@ export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
 export type InsertLink = typeof linksTable.$inferInsert;
-export type SelectLink = typeof linksTable.$inferSelect;
+export type SelectLink= typeof linksTable.$inferSelect;

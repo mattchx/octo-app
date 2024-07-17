@@ -10,78 +10,80 @@ import { Button } from "@/components/ui/button";
 export default function Component() {
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-md space-y-8">
-        <div className="flex justify-center">
-          <Link href="#" prefetch={false}>
-            <MountainIcon className="h-8 w-8" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
-        </div>
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Create an account
-          </h1>
-          <p className="text-muted-foreground">
-            Enter your details below to create your account.
+      <form>
+        <div className="mx-auto w-full max-w-md space-y-8">
+          <div className="flex justify-center">
+            <Link href="#" prefetch={false}>
+              <MountainIcon className="h-8 w-8" />
+              <span className="sr-only">Acme Inc</span>
+            </Link>
+          </div>
+          <div className="space-y-2 text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              Create an account
+            </h1>
+            <p className="text-muted-foreground">
+              Enter your details below to create your account.
+            </p>
+          </div>
+          <Card>
+            <form>
+              <CardContent className="space-y-4 pt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input id="password" type="password" required />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button formAction={signup} className="w-full">
+                  Sign in
+                </Button>
+              </CardFooter>
+            </form>
+          </Card>
+          <p className="text-center text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-medium text-primary hover:text-primary/90 underline underline-offset-4"
+              prefetch={false}
+            >
+              Log in
+            </Link>
           </p>
-        </div>
-        <Card>
-          <form>
-            <CardContent className="space-y-4 pt-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-muted" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-background px-2 text-muted-foreground">Or sign up with</span>
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button formAction={signup} className="w-full">
-                Sign in
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-        <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-medium text-primary hover:text-primary/90 underline underline-offset-4"
-            prefetch={false}
-          >
-            Log in
-          </Link>
-        </p>
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-muted" />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-background px-2 text-muted-foreground">Or sign up with</span>
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-3">
-            <div>
-              <Button
-                variant="outline"
-                className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                onClick={() => signInWithGoogle()}
-              >
-                <ChromeIcon className="mr-2 h-5 w-5" />
-                Sign in with Google
-              </Button>
+            <div className="mt-6 grid grid-cols-1 gap-3">
+              <div>
+                <Button
+                  variant="outline"
+                  className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  formAction={signInWithGoogle}
+                >
+                  <ChromeIcon className="mr-2 h-5 w-5" />
+                  Sign in with Google
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
