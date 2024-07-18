@@ -1,6 +1,5 @@
-import { login, signInWithGoogle } from "../auth/actions";
-
 import Link from "next/link";
+import { signIn } from "@/auth"
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -9,7 +8,7 @@ import { Button } from "@/components/ui/button";
 export default function Component() {
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
-      <form>
+      {/* <form> */}
         <div className="mx-auto w-full max-w-md space-y-8">
           <div className="flex justify-center">
             <Link href="#" prefetch={false}>
@@ -53,9 +52,9 @@ export default function Component() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button formAction={login} className="w-full">
+                {/* <Button formAction={login} className="w-full">
                   Log in
-                </Button>
+                </Button> */}
               </CardFooter>
             </form>
           </Card>
@@ -79,20 +78,23 @@ export default function Component() {
               </div>
             </div>
             <div className="mt-6 grid grid-cols-1 gap-3">
-              <div>
+              <form
+              action={async () => {
+                "use server"
+                await signIn("google")
+              }}>
                 <Button
                   variant="outline"
                   className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                  formAction={signInWithGoogle}
                 >
                   <ChromeIcon className="mr-2 h-5 w-5" />
                   Sign in with Google
                 </Button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
-      </form>
+      {/* </form> */}
     </div>
   );
 }

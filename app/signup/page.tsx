@@ -1,5 +1,3 @@
-"use client"
-import { signup, signInWithGoogle } from "../auth/actions";
 
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -44,9 +42,9 @@ export default function Component() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button formAction={signup} className="w-full">
+                {/* <Button formAction={signup} className="w-full">
                   Sign in
-                </Button>
+                </Button> */}
               </CardFooter>
             </form>
           </Card>
@@ -71,14 +69,14 @@ export default function Component() {
             </div>
             <div className="mt-6 grid grid-cols-1 gap-3">
               <div>
-                <Button
+                {/* <Button
                   variant="outline"
                   className="inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                   formAction={signInWithGoogle}
                 >
                   <ChromeIcon className="mr-2 h-5 w-5" />
                   Sign in with Google
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
