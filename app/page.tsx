@@ -1,11 +1,21 @@
 import Image from 'next/image'
 import Link from "next/link"
+import { auth } from "@/auth"
+import { redirect } from 'next/navigation'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-export default function Component() {
+
+
+export default async function Component() {
+  const session = await auth()
+
+  if (session) {
+    redirect('/dashboard')
+  }
+
   return (
     <main className="">
     <div className="flex flex-col min-h-[100dvh]">

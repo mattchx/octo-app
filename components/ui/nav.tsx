@@ -1,42 +1,36 @@
-// import { signout } from "@/app/auth/actions"
-// import { createClient } from '@/utils/supabase/server'
+import { signIn, signOut, auth } from "@/auth"
 
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
+import { SignOut } from './signout-button'
+import { SignIn } from './signin-button'
 
 export async function Nav() {
-  // const supabase = createClient()
+  const session = await auth()
 
-  // const { data, error } = await supabase.auth.getUser()
-
-
-  // if (data.user) {
-  //   return (
-  //     <header className="px-4 lg:px-6 h-14 flex items-center">
-  //       <Link href="#" className="flex items-center justify-center" prefetch={false}>
-  //         <MountainIcon className="h-6 w-6" />
-  //         <span className="sr-only">Link Pages</span>
-  //       </Link>
-  //       <nav className="ml-auto flex">
-  //         <Button variant="link" className='text-tertiary'>
-  //           <Link href="/dashboard" prefetch={false}>
-  //             Dashboard
-  //           </Link>
-  //         </Button>
-  //         <Button variant="link" className='text-tertiary'>
-  //           <Link href="/account" prefetch={false}>
-  //             Account
-  //           </Link>
-  //         </Button>
-  //         <form>
-  //           <Button variant="link" formAction={signout} className='text-tertiary'>
-  //             Log out
-  //           </Button>
-  //         </form>
-  //       </nav>
-  //     </header>
-  //   )
-  // }
+  if (session?.user) {
+    return (
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link href="#" className="flex items-center justify-center" prefetch={false}>
+          <MountainIcon className="h-6 w-6" />
+          <span className="sr-only">Link Pages</span>
+        </Link>
+        <nav className="ml-auto flex">
+          <Button variant="link" className='text-tertiary'>
+            <Link href="/dashboard" prefetch={false}>
+              Dashboard
+            </Link>
+          </Button>
+          <Button variant="link" className='text-tertiary'>
+            <Link href="/account" prefetch={false}>
+              Account
+            </Link>
+          </Button>
+          <SignOut />
+        </nav>
+      </header>
+    )
+  }
 
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center">
@@ -45,16 +39,7 @@ export async function Nav() {
         <span className="sr-only">Link Pages</span>
       </Link>
       <nav className="ml-auto flex">
-        <Button variant="link" className='text-tertiary'>
-          <Link href="/login" prefetch={false}>
-            Log in
-          </Link>
-        </Button>
-        <Button variant="link" className='text-tertiary'>
-          <Link href="/signup" prefetch={false}>
-            Sign up
-          </Link>
-        </Button>
+        <SignIn />
       </nav>
     </header>
   )
