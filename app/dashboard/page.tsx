@@ -1,12 +1,15 @@
 import { MainForm } from "@/app/dashboard/main-form"
 
+import { auth } from "@/auth"
+
 export default async function Home() {
+
+  const session = await auth()
 
   return (
     <main>
-      <div className="min-h-screen bg-gray-100 p-8">
-        <MainForm/>
-      </div>
+      <p>Welcome back {session?.user?.name}!</p>
+      <MainForm />
     </main>
   );
 }

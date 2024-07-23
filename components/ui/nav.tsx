@@ -22,7 +22,7 @@ export async function Nav() {
             </Link>
           </Button>
           <Button variant="link" className='text-tertiary'>
-            <Link href="/account" prefetch={false}>
+            <Link href="/dashboard/account" prefetch={false}>
               Account
             </Link>
           </Button>

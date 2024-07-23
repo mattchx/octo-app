@@ -1,5 +1,7 @@
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core"
 import type { AdapterAccountType } from "next-auth/adapters"
+
+import { InferSelectModel, InferInsertModel } from "drizzle-orm"
  
 export const users = sqliteTable("user", {
   id: text("id")
@@ -9,6 +11,7 @@ export const users = sqliteTable("user", {
   email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image"),
+  bio: text("bio")
 })
  
 export const accounts = sqliteTable(
@@ -79,3 +82,5 @@ export const authenticators = sqliteTable(
     }),
   })
 )
+
+export type User = InferInsertModel<typeof users>;

@@ -1,12 +1,14 @@
-import AccountForm from './account-form'
-import { createClient } from '@/utils/supabase/server'
+import { auth } from "@/auth"
+import { AccountForm } from './account-form'
+import { User } from '@/db/schema/users'
+
 
 export default async function Account() {
-  const supabase = createClient()
+  const session = await auth()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (!session?.user?.id) {
+    return <div>User not found</div>
+  }
 
-  return <AccountForm user={user} />
+  return <AccountForm user={session?.user as User} />
 }
