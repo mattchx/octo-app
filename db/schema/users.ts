@@ -83,4 +83,5 @@ export const authenticators = sqliteTable(
   })
 )
 
-export type User = InferInsertModel<typeof users>;
+export type InsertUser = typeof users.$inferInsert;
+export type SelectUser = typeof users.$inferSelect;

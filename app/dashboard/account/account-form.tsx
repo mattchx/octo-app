@@ -5,7 +5,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { updateAccount } from "@/actions";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { User } from '@/db/schema/users'
+import { InsertUser } from '@/db/schema/users'
 
 const initialState = {
   message: "",
@@ -21,12 +21,11 @@ function SubmitButton() {
   );
 }
 
-export function AccountForm({ user: userData }: { user: User }) {
+export function AccountForm({ user: userData }: { user: InsertUser }) {
   const [state, formAction] = useFormState(updateAccount, initialState);
   const [user, setUser] = useState(userData)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("VALUE", e?.target?.value)
     setUser({ ...user, bio: e.target.value })
   }
 

@@ -1,6 +1,6 @@
 import { auth } from "@/auth"
 import { AccountForm } from './account-form'
-import { User } from '@/db/schema/users'
+import { InsertUser } from '@/db/schema/users'
 
 
 export default async function Account() {
@@ -10,5 +10,5 @@ export default async function Account() {
     return <div>User not found</div>
   }
 
-  return <AccountForm user={session?.user as User} />
+  return <AccountForm user={session?.user as InsertUser} />
 }
