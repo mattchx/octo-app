@@ -35,6 +35,15 @@ export function MainForm() {
     setLinks(newLinks)
   }
 
+  const addLink = () => {
+    setLinks([...links, { title: "", description: "", url: "" }]);
+  };
+
+  const removeLink = (index: number) => {
+    const newLinks = links.filter((_, i) => i !== index);
+    setLinks(newLinks);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <Card className="max-w-2xl mx-auto">
@@ -55,33 +64,33 @@ export function MainForm() {
                 <Card key={index} className="p-4">
                   <div className="space-y-2">
                     <Input
-                      name="title"
+                      name={`link-${index}-title`}
                       placeholder="Link Title"
                       value={link.title}
                       onChange={(e) => handleLinkChange(index, 'title', e.target.value)}
                       required
                     />
                     <Input
-                      name="description"
+                      name={`link-${index}-description`}
                       placeholder="Link Description"
                       value={link.description}
                       onChange={(e) => handleLinkChange(index, 'description', e.target.value)}
                     // required
                     />
                     <Input
-                      name="url"
+                      name={`link-${index}-url`}
                       placeholder="URL"
                       value={link.url}
                       onChange={(e) => handleLinkChange(index, 'url', e.target.value)}
                       required
                     />
-                    {/* <Button type="button" variant="destructive" onClick={() => removeLink(index)}>
+                    <Button type="button" variant="destructive" onClick={() => removeLink(index)}>
                       Remove Link
-                    </Button> */}
+                    </Button>
                   </div>
                 </Card>
               ))}
-              {/* <Button type="button" onClick={addLink}>Add Link</Button> */}
+              <Button type="button" onClick={addLink}>Add Link</Button>
             </div>
             <SubmitButton />
           </form>

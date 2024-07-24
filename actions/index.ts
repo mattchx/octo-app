@@ -32,21 +32,24 @@ export async function updateLinks(prevState: { message: string; }, formData: For
   const userId = session?.user?.id
 
   // Extract the form data
-  const linkData = {
-    title: formData.get('title'),
-    description: formData.get('description'),
-    url: formData.get('url'),
-    userId
-  };
+  const linksArray = [];
+  let i = 0;
 
-  console.log('LINKDATA', linkData)
+  while (formData.has(`link-${i}-title`)) {
+    linksArray.push({
+      title: formData.get(`link-${i}-title`) as string,
+      description: formData.get(`link-${i}-description`) as string,
+      url: formData.get(`link-${i}-url`) as string,
+      userId
+    });
+    i++;
+  }
 
   try {
-    // Validate the extracted data
-    // const validatedLink = LinkSchema.parse(linkData);
-    console.log("success")
+    // todo: Validate the extracted data
+
     // Insert the data
-    const insertResult = await db.insert(links).values(linkData as InsertLink);
+    const insertResult = await db.insert(links).values(linksArray as Array<InsertLink>);
     console.log(insertResult)
     return { message: "success" }
   } catch (error) {
