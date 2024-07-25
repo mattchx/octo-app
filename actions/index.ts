@@ -6,14 +6,14 @@ import { users } from "@/db/schema/users"
 import { InsertLink, links } from "@/db/schema/links"
 import { auth } from "@/auth"
 
-export async function updateAccount(prevState: { message: string; }, formData: FormData) {
+export async function updateAccount(prevState: { status: string; }, formData: FormData) {
   const bio = formData.get('bio') as string;
 
   const session = await auth()
   const userId = session?.user?.id
 
   if (!userId) {
-    return { message: "user does not exist" }
+    return { status: "user does not exist" }
   }
 
   try {
@@ -21,39 +21,36 @@ export async function updateAccount(prevState: { message: string; }, formData: F
       .set({ bio })
       .where(eq(users.id, userId))
   } catch (error) {
-    return { message: "error" }
+    return { status: "error" }
   }
-  return { message: "success" }
+  return { status: "success" }
 }
 
-export async function updateLinks(prevState: { message: string; }, formData: FormData) {
+export async function updateLinks(prevState: { status: string; }, formData: FormData) {
 
   const session = await auth()
   const userId = session?.user?.id
 
-  // Extract the form data
-  const linksArray = [];
-  let i = 0;
-
-  while (formData.has(`link-${i}-title`)) {
-    linksArray.push({
-      title: formData.get(`link-${i}-title`) as string,
-      description: formData.get(`link-${i}-description`) as string,
-      url: formData.get(`link-${i}-url`) as string,
-      userId
-    });
-    i++;
+  if (!userId) {
+    return { status: "user does not exist" }
   }
+
+  // Extract the form data
+  const parsedLink = {
+    title: formData.get('title') as string,
+    description: formData.get('description') as string,
+    url: formData.get('url') as string,
+    userId
+  };
 
   try {
     // todo: Validate the extracted data
 
     // Insert the data
-    const insertResult = await db.insert(links).values(linksArray as Array<InsertLink>);
-    console.log(insertResult)
-    return { message: "success" }
+    const insertResult = await db.insert(links).values(parsedLink);
+    return { status: "success" }
   } catch (error) {
     console.log("error", error)
-    return { message: "error" }
+    return { status: "error" }
   }
 }

@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,26 @@ import { Label } from "@/components/ui/label";
 import { updateLinks } from "@/actions"
 import { InsertLink } from '@/db/schema/links';
 
-const initialState = {
-  message: "",
-};
+
+const data = [
+  {
+    title: "OpenAI Website",
+    description: "The official website of OpenAI, the company behind ChatGPT.",
+    url: "https://openai.com"
+  },
+  {
+    title: "MDN Web Docs",
+    description: "Comprehensive documentation for web technologies (HTML, CSS, JavaScript).",
+    url: "https://developer.mozilla.org/en-US/"
+  },
+  {
+    title: "Example Blog Post",
+    description: "An interesting article about a specific topic.",
+    url: "https://www.exampleblog.com/article1"
+  }
+];
+
+const initialState = { title: "", description: "", url: "" }
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -26,76 +43,93 @@ function SubmitButton() {
 
 
 export function MainForm() {
-  const [state, formAction] = useFormState(updateLinks, initialState);
-  const [links, setLinks] = useState([{ title: "", description: "", url: "" }]);
+  const [state, formAction] = useFormState(updateLinks, { status: "" });
+  const [link, setLink] = useState({ title: "", description: "", url: "" });
+  const [links, setLinks] = useState<any[]>(data);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleLinkChange = (index: number, field: keyof InsertLink, value: string) => {
-    const newLinks = [...links]
-    newLinks[index][field as keyof typeof newLinks[typeof index]] = value;
-    setLinks(newLinks)
+  const handleChange = (field: keyof InsertLink, value: string) => {
+    setLink(prevLink => ({
+      ...prevLink,
+      [field]: value
+    }));
   }
 
-  const addLink = () => {
-    setLinks([...links, { title: "", description: "", url: "" }]);
-  };
-
-  const removeLink = (index: number) => {
-    const newLinks = links.filter((_, i) => i !== index);
-    setLinks(newLinks);
-  };
+  useEffect(() => {
+    if (state.status === 'success') {
+      // Reset form only if submission was successful
+      setLink(initialState)
+    }
+  }, [state.status]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">
-            Add your links
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form action={formAction} className="space-y-6">
-            {/* <div className="space-y-2">
-              <Label htmlFor="avatarUrl">Avatar URL</Label>
-              <Input id="avatarUrl" name="avatarUrl" placeholder="https://example.com/avatar.jpg" type="url" />
-            </div> */}
+    <div className="container mx-auto p-4">
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Link Manager</h1>
+        <Button variant="ghost">Profile</Button>
+      </header>
 
-            <div className="space-y-4">
-              {links.map((link, index) => (
-                <Card key={index} className="p-4">
-                  <div className="space-y-2">
-                    <Input
-                      name={`link-${index}-title`}
-                      placeholder="Link Title"
-                      value={link.title}
-                      onChange={(e) => handleLinkChange(index, 'title', e.target.value)}
-                      required
-                    />
-                    <Input
-                      name={`link-${index}-description`}
-                      placeholder="Link Description"
-                      value={link.description}
-                      onChange={(e) => handleLinkChange(index, 'description', e.target.value)}
-                    // required
-                    />
-                    <Input
-                      name={`link-${index}-url`}
-                      placeholder="URL"
-                      value={link.url}
-                      onChange={(e) => handleLinkChange(index, 'url', e.target.value)}
-                      required
-                    />
-                    <Button type="button" variant="destructive" onClick={() => removeLink(index)}>
-                      Remove Link
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-              <Button type="button" onClick={addLink}>Add Link</Button>
-            </div>
-            <SubmitButton />
-          </form>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div className="md:col-span-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>Upload Link</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form action={formAction} className="space-y-4">
+                <Input
+                  name="title"
+                  placeholder="Add link title here"
+                  value={link.title}
+                  onChange={(e) => handleChange('title', e.target.value)}
+                />
+                <Input
+                  name="url"
+                  placeholder="Paste your link url here"
+                  value={link.url}
+                  onChange={(e) => handleChange('url', e.target.value)}
+                />
+                <Textarea
+                  name="description"
+                  placeholder="Enter the description"
+                  value={link.description}
+                  onChange={(e) => handleChange('description', e.target.value)}
+                />
+                <SubmitButton />
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="md:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Your Uploaded Links</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Input placeholder="Search links" className="mb-4" />
+              <ul className="space-y-2">
+                {links.map((link, index) => (
+                  <li key={index} className="border-b pb-2">
+                    {link.title && <p className="text-sm">{link.title}</p>}
+                    <a className="font-medium hover:underline">{link.url}</a>
+                    {link.description && <p className="text-sm">{link.description.slice(0, 50)}...</p>}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* <footer className="mt-8 text-center text-sm text-gray-500">
+        <p>&copy; 2024 Root App. All rights reserved.</p>
+        <div className="mt-2">
+          <a href="#" className="hover:underline">About</a> |
+          <a href="#" className="hover:underline ml-2">Privacy Policy</a> |
+          <a href="#" className="hover:underline ml-2">Contact Us</a>
+        </div>
+      </footer> */}
     </div>
   );
 }
