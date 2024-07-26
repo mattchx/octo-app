@@ -5,6 +5,8 @@ import { db } from "@/db"
 import { users } from "@/db/schema/users"
 import { InsertLink, links } from "@/db/schema/links"
 import { auth } from "@/auth"
+import { revalidatePath } from 'next/cache'
+
 
 export async function updateAccount(prevState: { status: string; }, formData: FormData) {
   const bio = formData.get('bio') as string;
@@ -47,7 +49,10 @@ export async function updateLinks(prevState: { status: string; }, formData: Form
     // todo: Validate the extracted data
 
     // Insert the data
-    const insertResult = await db.insert(links).values(parsedLink);
+    await db.insert(links).values(parsedLink);
+
+    revalidatePath('/dashboard')
+
     return { status: "success" }
   } catch (error) {
     console.log("error", error)
