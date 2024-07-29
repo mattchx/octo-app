@@ -1,6 +1,6 @@
 "use server"
 
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { db } from "@/db"
 import { users } from "@/db/schema/users"
 import { InsertLink, links } from "@/db/schema/links"
@@ -57,5 +57,29 @@ export async function updateLinks(prevState: { status: string; }, formData: Form
   } catch (error) {
     console.log("error", error)
     return { status: "error" }
+  }
+}
+
+export async function deleteLink(prevState: any, formData: FormData) {
+  const linkId = Number(formData.get('id'));
+  const session = await auth()
+  const userId = session?.user?.id
+
+  if (!userId) {
+    return { status: "error", message: "User does not exist" }
+  }
+
+  try {
+    await db.delete(links)
+      .where(
+        eq(links.id, linkId)
+      );
+
+    revalidatePath('/dashboard')
+
+    return { status: "success", message: "Link deleted successfully" }
+  } catch (error) {
+    console.log("error", error)
+    return { status: "error", message: "Failed to delete link" }
   }
 }
